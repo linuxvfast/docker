@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-test-pod
+spec:
+  containers:
+  - name: cm-test
+    image: busybox
+    command: ["/bin/sh","-c","env|grep APP"]
+    env:
+    - name: APPLOGLEVEL           #是定义的环境变量名称
+      valueFrom:
+        configMapKeyRef:
+          name: cm-appvars        #表示环境变量的值取自cm-appvars
+          key: apploglevel        #key为apploglevel
+    - name: APPDATADIR            #是定义的环境变量名称
+      valueFrom:
+        configMapKeyRef:
+          name: cm-appvars        #表示环境变量的值取自cm-appvars
+          key: appdatadir         #key为appdatadir
+  restartPolicy: Never
+  
+ 功能：
+ 将configmap  “cm-appvars”的内容以环境变量的方式设置为容器内部的环境变量，通过容器启动命令显示变量的值
+  valueFrom:分别对应apploglevel和appdatadir的值
+  
