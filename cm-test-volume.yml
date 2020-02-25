@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-test-app
+spec:
+  containers:
+  - name: cm-test-app
+    image: tomcat:7
+    ports:
+    - containerPort: 8080
+    volumeMounts:
+    - name: serverxml             #引用数据卷的名称
+      mountPath: /configfiles     #容器内挂载目录
+  volumes:
+  - name: serverxml               #定义数据卷的名称
+    configMap:
+      name: cm-appconfigfiles     #使用configmap中名为cm-appconfigfiles的configmap
+      items:
+      - key: key-serverxml        #key=key-serverxml
+        path: server.xml          #value将server.xml的文件名进行挂载
+      - key: key-loggingproperties  #key=key-loggingproperties
+        path: logging.properties    #value将logging.properties文件名进行挂载
+
+
+功能：将configmap的cm-appconfigfiles中的内容以文件的形式挂载到容器内/configfiles目录
