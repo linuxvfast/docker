@@ -4,4 +4,4 @@
 生成registry容器
 docker run -d --name registry -p 5000:5000 --restart=always registry:2
 
-生成镜像之后可以使用docker run -d --name nginx -p 80:80 -p 443:443 --restart=always  --link registry:registry  nginx:cs6.9 生成容器
+生成镜像之后可以使用docker run -d -v /var/lib/registry:/var/lib/registry --name nginx -p 80:80 -p 443:443 --restart=always  --link registry:registry  nginx:cs6.9 生成容器
